@@ -1,0 +1,178 @@
+<style>
+  /* ===== Modern Navbar ===== */
+.custom-navbar {
+  padding: 0.65rem 0;
+  backdrop-filter: blur(8px);
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  letter-spacing: -0.3px;
+}
+
+.brand-logo {
+  font-size: 1.2rem;
+}
+
+/* Nav links */
+.nav-link-custom {
+  position: relative;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 0.4rem 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.nav-link-custom:hover {
+  color: #ffffff !important;
+}
+
+.nav-link-custom::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #0d6efd;
+  transition: width 0.25s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link-custom:hover::after,
+.nav-link-custom.active::after {
+  width: 60%;
+}
+
+/* User dropdown */
+.user-dropdown {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.user-dropdown:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Avatar circle with initial */
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  border-radius: 14px;
+  border: none;
+  padding: 0.4rem;
+}
+
+.dropdown-item {
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f3f5;
+}
+
+/* Mobile tweaks */
+@media (max-width: 991px) {
+  .nav-link-custom::after {
+    display: none;
+  }
+}
+
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm custom-navbar">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <span class="brand-logo">✍️</span>
+      Blogify
+    </a>
+
+    <!-- Toggle -->
+    <button 
+      class="navbar-toggler border-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom active" href="/">Home</a>
+        </li>
+
+        <% if (locals.user) { %>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/blog/add-new">
+              Add Blog
+            </a>
+          </li>
+        <% } %>
+      </ul>
+
+      <!-- Right side -->
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <% if (locals.user) { %>
+          <li class="nav-item dropdown">
+            <a 
+              class="nav-link dropdown-toggle d-flex align-items-center gap-2 user-dropdown"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <div class="user-avatar">
+                <%= locals.user.name.charAt(0).toUpperCase() %>
+              </div>
+              <span class="fw-semibold">
+                <%= locals.user.name %>
+              </span>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+              <li>
+                <a class="dropdown-item" href="/user/logout">
+                  🚪 Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/user/signUp">
+              Create Account
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-light btn-sm ms-lg-2" href="/user/login">
+              Login
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+
+  </div>
+</nav>

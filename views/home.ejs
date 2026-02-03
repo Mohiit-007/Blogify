@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Home Page</title>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .page-heading {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-subtitle {
+            max-width: 520px;
+            margin: 0 auto;
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        /* Blog grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.75rem;
+        }
+
+        /* Blog card */
+        .blog-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .blog-card img {
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .blog-title {
+            font-weight: 600;
+            line-height: 1.45;
+            color: #212529;
+        }
+
+        .blog-meta {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .read-btn {
+            font-size: 0.9rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 20px;
+            align-self: flex-start;
+        }
+
+        /* Empty state */
+        .empty-state {
+            background: #fff;
+            border-radius: 14px;
+            padding: 3rem 1rem;
+            text-align: center;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-5 mb-5">
+
+        <!-- Header -->
+        <div class="mb-5 text-center">
+            <h1 class="page-heading">Latest Blogs</h1>
+            <p class="page-subtitle">
+                Read thoughts, stories, and ideas shared by the community
+            </p>
+        </div>
+
+        <!-- Empty state -->
+        <% if (blogs.length === 0) { %>
+            <div class="empty-state">
+                <h5>No blogs yet</h5>
+                <p>Be the first one to share your thoughts ✨</p>
+            </div>
+        <% } %>
+
+        <!-- Blog grid -->
+        <div class="blog-grid">
+            <% blogs.forEach(blog => { %>
+                <div class="card blog-card">
+
+                    <img 
+                        src="<%= blog.coverImageURL %>" 
+                        alt="blog cover"
+                    >
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="blog-title mb-2">
+                            <%= blog.title %>
+                        </h5>
+
+                        <!-- Optional future meta -->
+                        <div class="blog-meta mb-3">
+                            Posted on <%= new Date(blog.createdAt).toDateString() %>
+                        </div>
+
+                        <a 
+                            href="/blog/<%= blog._id %>" 
+                            class="btn btn-outline-primary read-btn mt-auto"
+                        >
+                            Read more →
+                        </a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+    </div>
+
+    <%- include('./partials/script') %>
+</body>
+</html>

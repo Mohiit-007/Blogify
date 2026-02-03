@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Create Account</title>
+
+    <style>
+        .auth-wrapper {
+            min-height: calc(100vh - 56px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            border: none;
+            border-radius: 14px;
+        }
+
+        .auth-title {
+            font-weight: 700;
+        }
+
+        .form-control,
+        .form-control:focus {
+            border-radius: 10px;
+        }
+
+        .submit-btn {
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 0.6rem;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('./partials/nav') %>
+
+    <div class="auth-wrapper">
+        <div class="card auth-card shadow-sm">
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Heading -->
+                <div class="text-center mb-4">
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="text-muted">Join and start blogging today</p>
+                </div>
+
+                <!-- Form -->
+                <form action="/user/signUp" method="post">
+
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label fw-semibold">
+                            Full Name
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="fullname" 
+                            name="fullname"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-semibold">
+                            Email address
+                        </label>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            name="email" 
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                        <div class="form-text">
+                            We’ll never share your email with anyone else.
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-semibold">
+                            Password
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            name="password" 
+                            id="password"
+                            placeholder="Create a strong password"
+                            required
+                        >
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="btn btn-primary w-100 submit-btn">
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Footer -->
+                <div class="text-center mt-4">
+                    <small class="text-muted">
+                        Already have an account?
+                        <a href="/user/login" class="text-decoration-none">
+                            Login here
+                        </a>
+                    </small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script') %>
+</body>
+</html>

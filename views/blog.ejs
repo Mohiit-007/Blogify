@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title><%= blog.title %></title>
+
+    <style>
+        body {
+            background-color: #f6f7f9;
+        }
+
+        .blog-wrapper {
+            max-width: 920px;
+            margin: auto;
+        }
+
+        .blog-card {
+            border-radius: 18px;
+        }
+
+        .blog-title {
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .blog-meta {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .blog-image {
+            width: 100%;
+            max-height: 440px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .blog-body {
+            font-size: 1.07rem;
+            line-height: 1.95;
+            color: #2c2c2c;
+        }
+
+        /* Author */
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+        }
+
+        .author-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* Comments */
+        .comments-wrapper {
+            margin-top: 4rem;
+        }
+
+        .comment-card {
+            border-radius: 16px;
+            border: none;
+        }
+
+        .comment-form textarea {
+            resize: none;
+            border-radius: 14px;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 0.9rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .comment-empty {
+            text-align: center;
+            padding: 2rem 0;
+            color: #777;
+            font-size: 0.95rem;
+        }
+
+        .post-btn {
+            border-radius: 20px;
+            padding: 0.45rem 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('./partials/nav') %>
+
+    <div class="container mt-5 mb-5 blog-wrapper">
+        <article class="card blog-card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Blog header -->
+                <h1 class="blog-title mb-2">
+                    <%= blog.title %>
+                </h1>
+
+                <div class="blog-meta mb-4">
+                    Published on <%= new Date(blog.createdAt).toDateString() %>
+                </div>
+
+                <!-- Cover -->
+                <img 
+                    src="<%= blog.coverImageURL %>" 
+                    alt="Blog cover"
+                    class="blog-image mb-4"
+                >
+
+                <!-- Content -->
+                <div class="blog-body mb-4">
+                    <%= blog.body %>
+                </div>
+
+                <!-- Author -->
+                <% if (blog.createdBy) { %>
+                <div class="author-card">
+                    <img 
+                        src="<%= blog.createdBy.profileImage %>" 
+                        class="author-avatar"
+                        alt="Author"
+                    >
+                    <div>
+                        <p class="author-name mb-0">
+                            <%= blog.createdBy.fullname %>
+                        </p>
+                        <span class="author-label">Author</span>
+                    </div>
+                </div>
+                <% } %>
+
+                <!-- Comments -->
+                <div class="comments-wrapper">
+                    <h4 class="mb-3">
+                        Comments (<%= comments.length %>)
+                    </h4>
+
+                    <!-- Comment form -->
+                    <% if (locals.user) { %>
+                        <div class="card comment-card shadow-sm mb-4">
+                            <div class="card-body">
+                                <form 
+                                    class="comment-form"
+                                    action="/blog/comment/<%= blog._id %>" 
+                                    method="post"
+                                >
+                                    <textarea 
+                                        class="form-control mb-3"
+                                        name="content"
+                                        rows="3"
+                                        placeholder="Write a thoughtful comment…"
+                                        required
+                                    ></textarea>
+                                    <button class="btn btn-primary post-btn">
+                                        Post Comment
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <p class="text-muted">
+                            Please <a href="/user/login">login</a> to join the discussion.
+                        </p>
+                    <% } %>
+
+                    <!-- Comment list -->
+                    <div class="card comment-card shadow-sm">
+                        <div class="card-body">
+                            <% if (comments.length === 0) { %>
+                                <div class="comment-empty">
+                                    No comments yet — be the first to share your thoughts ✨
+                                </div>
+                            <% } %>
+
+                            <% comments.forEach(comment => { %>
+                                <div class="comment-item">
+                                    <img 
+                                        src="<%= comment.createdBy.profileImage %>" 
+                                        class="comment-avatar"
+                                        alt="User"
+                                    >
+                                    <div>
+                                        <div class="comment-author">
+                                            <%= comment.createdBy.fullname %>
+                                        </div>
+                                        <div class="comment-text">
+                                            <%= comment.content %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <%- include('./partials/script') %>
+</body>
+</html>
