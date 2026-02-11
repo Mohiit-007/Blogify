@@ -55,6 +55,7 @@ async function handleuserlogin(req,res) {
     
         return res.cookie("token",token,{
             httpOnly : true,
+            secure : false,
             sameSite: "lax",
         }).redirect('/');
     } catch (error) {
