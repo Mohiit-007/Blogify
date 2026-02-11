@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Create New Blog</title>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .editor-wrapper {
+            max-width: 760px;
+            margin: auto;
+        }
+
+        .editor-card {
+            border: none;
+            border-radius: 16px;
+            background: #fff;
+        }
+
+        .editor-title {
+            font-weight: 700;
+            letter-spacing: -0.4px;
+        }
+
+        .editor-subtitle {
+            font-size: 0.95rem;
+            color: #6c757d;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 0.65rem 0.75rem;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #0d6efd;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+        }
+
+        .image-preview {
+            display: none;
+            margin-top: 0.75rem;
+            border-radius: 12px;
+            max-height: 220px;
+            object-fit: cover;
+        }
+
+        .submit-btn {
+            padding: 0.6rem 1.8rem;
+            font-weight: 500;
+            border-radius: 20px;
+        }
+
+        .editor-footer {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('./partials/navbar') %>
+
+    <div class="container mt-5 mb-5 editor-wrapper">
+        <div class="card editor-card shadow-sm">
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Heading -->
+                <div class="mb-4 text-center">
+                    <h2 class="editor-title">Update Blog</h2>
+                    <p class="editor-subtitle">
+                        Share your thoughts, ideas, and stories with the world
+                    </p>
+                </div>
+
+                <!-- Error -->
+                <% if (locals.error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= locals.error %>
+                    </div>
+                <% } %>
+
+                <!-- Form -->
+                <form action="/user/blog/edit/<%=blog._id %>" method="post">
+
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-semibold">
+                            Blog Title
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            name="title" 
+                            id="title"
+                            value="<%= blog.title %>"
+                            placeholder="Enter a catchy blog title"
+                            required
+                        >
+                    </div>
+
+                    <!-- Body -->
+                    <div class="mb-4">
+                        <label for="body" class="form-label fw-semibold">
+                            Blog Content
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            name="body" 
+                            id="body" 
+                            rows="7"
+                            required
+                        ><%= blog.body  %></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="editor-footer mb-0">
+                            Make sure everything looks good before publishing
+                        </p>
+                        <button class="btn btn-primary submit-btn">
+                            Update Blog
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script') %>
+
+    <script>
+        const input = document.getElementById("coverImage");
+        const preview = document.getElementById("preview");
+
+        input.addEventListener("change", () => {
+            const file = input.files[0];
+            if (!file) return;
+
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+        });
+    </script>
+</body>
+</html>

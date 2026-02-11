@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title><%= blog.title %></title>
+
+    <style>
+        body {
+            background-color: #f6f7f9;
+        }
+
+        .blog-wrapper {
+            max-width: 920px;
+            margin: auto;
+        }
+
+        .blog-card {
+            border-radius: 18px;
+        }
+
+        .blog-title {
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .blog-meta {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .blog-image {
+            width: 100%;
+            max-height: 440px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .blog-body {
+            font-size: 1.07rem;
+            line-height: 1.95;
+            color: #2c2c2c;
+        }
+
+        /* Author */
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+        }
+
+        .author-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* Comments */
+        .comments-wrapper {
+            margin-top: 4rem;
+        }
+
+        .comment-card {
+            border-radius: 16px;
+            border: none;
+        }
+
+        .comment-form textarea {
+            resize: none;
+            border-radius: 14px;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 0.9rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .comment-empty {
+            text-align: center;
+            padding: 2rem 0;
+            color: #777;
+            font-size: 0.95rem;
+        }
+
+        .post-btn {
+            border-radius: 20px;
+            padding: 0.45rem 1.2rem;
+        }
+        .blog-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-edit {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .btn-edit:hover {
+            background-color: #ffe69c;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .btn-delete:hover {
+            background-color: #f5c2c7;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background-color: #f1f3f5;
+            color: #343a40;
+        }
+
+        .btn-edit:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn-delete {
+            background-color: #212529;
+            color: #fff;
+        }
+
+        .btn-delete:hover {
+            background-color: #343a40;
+        }
+        .comment-item {
+    display: flex;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-left {
+    flex-shrink: 0;
+}
+
+.comment-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-author {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.comment-date {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.comment-text {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Buttons */
+.btn-edit,
+.btn-delete {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    border: none;
+    transition: 0.2s ease;
+}
+
+.btn-edit {
+    background-color: #f1f3f5;
+    color: #343a40;
+}
+
+.btn-edit:hover {
+    background-color: #e9ecef;
+}
+
+.btn-delete {
+    background-color: #212529;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #343a40;
+}
+.comment-item {
+    background: #fff;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    margin-bottom: 14px;
+}
+
+   .blog-title {
+    font-weight: 700;
+    font-size: 2.2rem;
+    letter-spacing: -0.5px;
+    color: #1c1e21;
+}
+
+.blog-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.blog-image {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.blog-body {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #333;
+    margin-top: 20px;
+}
+
+.blog-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 6px 16px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    border: none;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.btn-edit {
+    background-color: #f1f3f5;
+    color: #343a40;
+}
+
+.btn-edit:hover {
+    background-color: #e9ecef;
+}
+
+.btn-delete {
+    background-color: #212529;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #343a40;
+}
+
+.author-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1px solid #f1f3f5;
+}
+
+.author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f1f3f5;
+}
+
+.author-name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.author-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+     .blog-body p {
+    margin-bottom: 1rem;
+}
+
+.blog-body h1,
+.blog-body h2,
+.blog-body h3 {
+    margin-top: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.blog-body ul {
+    margin-left: 20px;
+    margin-bottom: 1rem;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <%- include('./partials/navbar') %>
+
+    <div class="container mt-5 mb-5 blog-wrapper">
+        <article class="card blog-card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Blog header -->
+                <h1 class="blog-title mb-2">
+                    <%= blog.title %>
+                </h1>
+
+                <div class="blog-meta mb-4">
+                    Published on <%= new Date(blog.createdAt).toDateString() %>
+                </div>
+
+                <!-- Cover -->
+                <img 
+                    src="<%= blog.coverImageURL %>" 
+                    alt="Blog cover"
+                    class="blog-image mb-4"
+                >
+
+                <!-- Content -->
+                <div class="blog-content-section mt-4">
+                <%- blog.body %>
+                
+
+                <% if (locals.user) { %>
+                    <% if (user.role === "ADMIN" || (blog.createdBy && user.id === blog.createdBy._id.toString())) { %>
+                        <div class="blog-actions">
+                            <a href="/blog/edit/<%= blog._id %>" class="btn-edit">
+                                Edit
+                            </a>
+
+                            <form action="/user/delete/<%= blog._id %>" method="post">
+                                <button type="submit" class="btn-delete">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    <% } %>
+                <% } %>
+
+            </div>
+
+
+                <!-- Author -->
+                <% if (blog.createdBy) { %>
+                <div class="author-card">
+                    <img 
+                        src="<%= blog.createdBy.profileImageURL %>" 
+                        class="author-avatar"
+                        alt="Author"
+                    >
+                    <div>
+                        <p class="author-name mb-0">
+                            <%= blog.createdBy.fullname %>
+                        </p>
+                        <span class="author-label">Author</span>
+                    </div>
+                </div>
+                <% } %>
+
+
+                <!-- Comments -->
+                <div class="comments-wrapper">
+                    <h4 class="mb-3">
+                        Comments (<%= comments.length %>)
+                    </h4>
+
+                    <% if (locals.User) { %>
+                        <div class="card comment-card shadow-sm mb-4">
+                            <div class="card-body">
+                                <form 
+                                    class="comment-form"
+                                    action="/user/comment/<%= blog._id %>" 
+                                    method="post"
+                                >
+                                    <textarea 
+                                        class="form-control mb-3"
+                                        name="content"
+                                        rows="3"
+                                        placeholder="Write a thoughtful comment…"
+                                        required
+                                    ></textarea>
+                                    <button class="btn btn-primary post-btn">
+                                        Post Comment
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <p class="text-muted">
+                            Please <a href="/login">login</a> to join the discussion.
+                        </p>
+                    <% } %>
+
+                    <!-- Comment list -->
+                   <% comments.forEach(comment => { %>
+            <div class="comment-item">
+                
+                <div class="comment-left">
+                    <img 
+                        src="<%= comment.createdBy.profileImageURL %>" 
+                        class="comment-avatar"
+                        alt="User"
+                    >
+                </div>
+
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <div>
+                            <div class="comment-author">
+                                <%= comment.createdBy.fullname %>
+                            </div>
+                            <div class="comment-date">
+                                <%= new Date(comment.createdAt).toDateString() %>
+                            </div>
+                        </div>
+
+                        <% if (user && (user.role === "ADMIN" || user.id === comment.createdBy._id.toString())) { %>
+                            <div class="comment-actions">
+                                <a href="/blog/comment/edit/<%= comment._id %>" class="btn-edit">
+                                    Edit
+                                </a>
+
+                                <form action="/user/delete/comment/<%= comment._id %>" method="post">
+                                    <button type="submit" class="btn-delete">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <div class="comment-text">
+                        <%= comment.content %>
+                    </div>
+                  </div>
+                </div>
+            <% }) %>
+
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <%- include('./partials/script') %>
+</body>
+</html>
